@@ -57,7 +57,7 @@
 1. **克隆项目**
 ```bash
 git clone https://github.com/bycszzz/pansou-ui.git
-cd pansou-tool
+cd pansou-ui
 ```
 
 2. **安装依赖**
@@ -98,33 +98,54 @@ npm run lint
 
 ### API地址配置
 
-项目支持自定义API地址，需要根据部署环境进行相应配置：
-
-#### 开发环境配置
-在 `vite.config.ts` 文件中修改代理配置：
-
-```typescript
-// vite.config.ts
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://your-api-domain.com', // 修改为你的API地址
-        changeOrigin: true,
-        secure: true,
-      }
-    }
-  }
-})
-```
-
 #### 生产环境配置
 在 `src/services/pansouApi.ts` 文件中修改API基础URL：
 
 ```typescript
 // src/services/pansouApi.ts
-const API_BASE_URL = import.meta.env.DEV ? '' : 'https://your-api-domain.com';
+const API_BASE_URL = ''
+
+#### NGINX配置
+# --- HTTP 到 HTTPS 的强制跳转 ---
+server {
+    listen 80;
+    listen [::]:80;
+    server_name mimi.bycs.me ;
+    return 301 https://$host$request_uri;
+}
+
+# --- HTTPS 服务配置 ---
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name mimi.bycs.me ;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    # ↓↓↓ 这是新增的反向代理配置块 ↓↓↓
+    # 所有 /api/ 开头的请求都会被转发到后端API
+    location /api/ {
+        # proxy_pass 指向你后端服务的实际地址
+        # 注意：这里用 127.0.0.1 (本地回环地址) 而不是公网IP，更安全高效
+        proxy_pass http://127.0.0.1:8080;
+
+        # --- 以下是推荐的代理头部设置 ---
+        # 将原始请求的 Host 头部传递给后端
+        proxy_set_header Host $host;
+        # 将客户端的真实IP地址传递给后端
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # --- 这是你原来的前端文件服务配置 ---
+    # 所有不匹配 /api/ 的其他请求，都会由这里处理，返回你的网页
+    location / {
+        root /var/www/pansou-ui/dist;
+        try_files $uri $uri/ /index.html;
+    }
+}
 ```
 
 #### 环境变量配置（推荐）
