@@ -110,7 +110,7 @@ const API_BASE_URL = ''
 server {
     listen 80;
     listen [::]:80;
-    server_name mimi.bycs.me ;
+    server_name your_domain ;
     return 301 https://$host$request_uri;
 }
 
@@ -118,7 +118,7 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name mimi.bycs.me ;
+    server_name your_domain ;
 
     ssl_certificate /etc/nginx/ssl/cert.pem;
     ssl_certificate_key /etc/nginx/ssl/key.pem;
