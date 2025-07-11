@@ -67,16 +67,6 @@ npm install
 yarn install
 ```
 
-3. **启动开发服务器**
-```bash
-npm run dev
-# 或使用 yarn
-yarn dev
-```
-
-4. **打开浏览器**
-访问 `http://localhost:5173` 即可使用
-
 ### 构建部署
 
 **构建生产版本**
@@ -148,24 +138,8 @@ server {
 }
 ```
 
-#### 环境变量配置（推荐）
-创建 `.env` 文件统一管理API配置：
-
-```bash
-# .env
-VITE_API_BASE_URL=https://your-api-domain.com
-```
-
-然后在 `src/services/pansouApi.ts` 中使用：
-
-```typescript
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://pansou.252035.xyz';
-```
-
 ### 注意事项
-- 确保API地址支持CORS跨域请求
-- 生产环境建议使用HTTPS协议
-- 修改配置后需要重启开发服务器
+- 可能需要配置selinux `sudo setsebool -P httpd_can_network_connect 1`
 
 ## 🎯 使用指南
 
@@ -217,23 +191,6 @@ src/
 
 ## ⚙️ 配置说明
 
-### API代理配置
-项目在开发环境下配置了API代理，将 `/api` 请求代理到 `https://pansou.252035.xyz`。
-
-**vite.config.ts**
-```typescript
-export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://pansou.252035.xyz',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
-  }
-})
-```
 
 ### 主题配置
 支持亮色和暗色主题，用户偏好会保存在 localStorage 中。
@@ -301,7 +258,7 @@ npm run build
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
 ## 🙏 致谢
-
+- [linuxdo](https://linux.do) 快来玩
 - [PanSou API](https://pansou.252035.xyz) - 提供网盘搜索服务
 - [React](https://reactjs.org) - 前端框架
 - [Vite](https://vitejs.dev) - 构建工具
@@ -310,9 +267,8 @@ npm run build
 
 ## 📞 联系我们
 
-- 项目地址：[GitHub Repository](https://github.com/your-username/pansou-tool)
-- 问题反馈：[Issues](https://github.com/your-username/pansou-tool/issues)
-- 功能建议：[Discussions](https://github.com/your-username/pansou-tool/discussions)
+- gemini https://gemini.google.com/
+- grok https://grok.com/
 
 ---
 
