@@ -56,7 +56,7 @@
 
 1. **克隆项目**
 ```bash
-git clone https://github.com/your-username/pansou-tool.git
+git clone https://github.com/bycszzz/pansou-ui.git
 cd pansou-tool
 ```
 
@@ -259,31 +259,6 @@ npm run build
 # 配置 Nginx 或其他 Web 服务器
 ```
 
-## 🤝 贡献指南
-
-我们欢迎所有形式的贡献！请遵循以下步骤：
-
-1. **Fork 项目**
-   - 点击右上角的 "Fork" 按钮
-
-2. **创建功能分支**
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
-
-3. **提交更改**
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
-
-4. **推送到分支**
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
-
-5. **创建 Pull Request**
-   - 在 GitHub 上打开 Pull Request
-   - 详细描述你的更改和原因
 
 ### 开发规范
 - 使用 TypeScript 编写代码
